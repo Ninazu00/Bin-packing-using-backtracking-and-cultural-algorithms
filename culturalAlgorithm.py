@@ -40,7 +40,7 @@ def applyBeliefs(beliefs,totalItems):
     for i in range(1,populationSize//2):
         availableItems = list(totalItems.keys())
         individual = Individual()
-        while individual.getFillRate(binSize) < beliefs["min-bin-fill"]:
+        while individual.getFillRate(binSize) < beliefs["min-bin-fill"] and totalItems:
             itemID = weightedPick(availableItems, beliefs["top-5-items"])
             if individual.addItem(itemID, totalItems[itemID], binSize):
                 availableItems.remove(itemID)
