@@ -40,7 +40,7 @@ def applyBeliefs(beliefs,totalItems):
     for i in range(1,populationSize//2):
         availableItems = list(totalItems.keys())
         individual = Individual()
-        while individual.getFillRate(binSize) < beliefs["min-bin-fill"] and totalItems:
+        while individual.getFillRate(binSize) < beliefs["min-bin-fill"] and availableItems:
             itemID = weightedPick(availableItems, beliefs["top-5-items"])
             if individual.addItem(itemID, totalItems[itemID], binSize):
                 availableItems.remove(itemID)
@@ -49,7 +49,18 @@ def applyBeliefs(beliefs,totalItems):
         newIndividuals.append(individual)
     return newIndividuals
 
-def crossOver(parent1, parent2, childPopulation):
+def mutate(individual,mutationRate):
+    if not individual.items:
+        return individual
+
+    if random.random() < mutationRate:
+        key = random.choice(list(individual.items.keys()))
+        individual.items.pop(key)
+
+    individual.fitness = -1
+    return individual
+
+def crossOver(parent1, parent2, childPopulation,mutationRate):
    
     def createChild(firstParent, secondParent):
         child = Individual()
@@ -75,8 +86,8 @@ def crossOver(parent1, parent2, childPopulation):
     child1 = createChild(parent1, parent2)
     child2 = createChild(parent2, parent1)
 
-    child1 = mutate(child1)
-    child2 = mutate(child2)
+    child1 = mutate(child1,mutationRate)
+    child2 = mutate(child2,mutationRate)
 
     childPopulation.append(child1)
     childPopulation.append(child2)
@@ -88,18 +99,6 @@ def evaluateFitness(individual):
     fill = sum(individual.items.values())
     individual.fitness = fill / binSize
     return individual.fitness
-
-
-def mutate(individual,mutationRate):
-    if not individual.items:
-        return individual
-
-    if random.random() < mutationRate:
-        key = random.choice(list(individual.items.keys()))
-        individual.items.pop(key)
-
-    individual.fitness = -1
-    return individual
 
 def selectAccepted(population):
     for ind in population:
@@ -145,23 +144,18 @@ def terminateCondition(generation, maxGenerations,population):
     bestFitness = max(ind.fitness for ind in population)
     return bestFitness >= 0.90 or generation >= maxGenerations
 
-#Important variable definitions
-binSize = 10
-populationSize = 50
-mutationRate = 0.1
-totalItems = {}
-selectedIndividuals = []
-beliefs = {"min-bin-fill":1,"top-5-items":[]}
-childPopulation = []
-maxGenerations = 100
-p1 = Individual()
-p2 = Individual()
-p1.items = {"A": 3, "B": 4}
-p2.items = {"C": 5, "D": 2}
+def initializeTotalItems(minSize,maxSize,numItems):
+    items = {}
+    for i in range(numItems):
+        itemID = i
+        itemSize = random.randint(minSize, maxSize)
+        items[itemID] = itemSize
+    return items
 
 def generateBinCulturalAlgorithm(maxGenerations, populationSize, mutationRate, totalItems, binSize):
     generation = 0
     population = initializePopulation()
+    beliefs = {"min-bin-fill":1,"top-5-items":[]}
     while not terminateCondition(generation, maxGenerations, population):
         selectedIndividuals = selectAccepted(population)
         updateBeliefs(selectedIndividuals, beliefs)
@@ -169,9 +163,19 @@ def generateBinCulturalAlgorithm(maxGenerations, populationSize, mutationRate, t
         childPopulation = []
         while len(childPopulation) < populationSize // 2:
             parent1, parent2 = random.sample(selectedIndividuals, 2)
-            child = crossOver(parent1, parent2, childPopulation)
-            child = mutate(child,mutationRate)
+            crossOver(parent1, parent2, childPopulation,mutationRate)
         population = generateNewGeneration(childPopulation, newPopulation)
         generation += 1
     bestIndividual = max(population, key=lambda x: x.fitness)
     return bestIndividual
+
+#Important variable definitions
+binSize = 10
+populationSize = 50
+mutationRate = 0.1
+totalItems = {}
+maxGenerations = 100
+
+totalItems = initializeTotalItems(1,5,20)
+bestBin = generateBinCulturalAlgorithm(maxGenerations, populationSize, mutationRate, totalItems, binSize)
+print("Best bin fill rate:", bestBin.getFillRate(binSize))
