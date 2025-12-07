@@ -7,6 +7,11 @@ class Individual:
     def getFillRate(self,binSize):
         fillAmount = sum(self.items.values())
         return fillAmount/binSize
+    def addItem(self,itemID,itemSize,binSize):
+        if sum(self.items.values()) + itemSize <= binSize:
+            self.items[itemID] = itemSize
+            return True
+        return False
 
 binSize = 10
 populationSize = 50
@@ -38,10 +43,14 @@ def weightedPick(choices, top5):
 
 def applyBeliefs(beliefs):
     newIndividuals = []
+    availableItems = list(totalItems.keys())
     for i in range(1,populationSize//2):
         individual = Individual()
-        
-
+        while individual.getFillRate(binSize) < beliefs["min-bin-fill"]:
+            if individual.addItem(weightedPick(availableItems, beliefs["top-5-items"]), totalItems[weightedPick(availableItems, beliefs["top-5-items"])], binSize):
+                continue
+            else:
+                break
 childPopulation = []
 p1 = Individual()
 p2 = Individual()
