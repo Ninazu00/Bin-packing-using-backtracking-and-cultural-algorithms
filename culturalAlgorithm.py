@@ -51,26 +51,37 @@ def applyBeliefs(beliefs,totalItems):
 
 def crossOver(parent1, parent2, childPopulation):
    
-    child = Individual()
-    used_ids = set()
-    parent_order = [parent1.items, parent2.items]
-    turn = 0
-    while True:
-        current_parent = parent_order[turn]
-        added = False
-        for item_id, item_size in current_parent.items():
-            if item_id in used_ids:
-                continue
-            current_child_size = sum(child.items.values())
-            if current_child_size + item_size <= binSize:
-                child.items[item_id] = item_size
-                used_ids.add(item_id)
-                added = True
+    def createChild(firstParent, secondParent):
+        child = Individual()
+        used_ids = set()
+        parent_order = [firstParent.items, secondParent.items]
+        turn = 0
+        while True:
+            current_parent = parent_order[turn]
+            added = False
+            for item_id, item_size in current_parent.items():
+                if item_id in used_ids:
+                    continue
+                current_child_size = sum(child.items.values())
+                if current_child_size + item_size <= binSize:
+                    child.items[item_id] = item_size
+                    used_ids.add(item_id)
+                    added = True
+                    break
+            if not added:
                 break
-        if not added:
-            break
-        turn = 1 - turn
-    return child
+            turn = 1 - turn
+        return child
+    child1 = createChild(parent1, parent2)
+    child2 = createChild(parent2, parent1)
+
+    child1 = mutate(child1)
+    child2 = mutate(child2)
+
+    childPopulation.append(child1)
+    childPopulation.append(child2)
+
+    return child1, child2
 
 
 def evaluateFitness(individual):
