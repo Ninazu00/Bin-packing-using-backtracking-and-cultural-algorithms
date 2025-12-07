@@ -1,5 +1,7 @@
 import math
 import copy
+import time
+
 
 def sortItems(itemsList):
     return sorted(itemsList, reverse=True)
@@ -97,7 +99,9 @@ def solveBinPacking(items, binCapacity):
     bestSolution = initializeSolution(sortedItems, binCapacity)
     usedBins = []
     binRemainingCapacities = []
+    start = time.time()
     backtrack(0, usedBins, binRemainingCapacities,
               binCapacity, bestSolution, sortedItems)
-
-    return bestSolution
+    end = time.time()
+    execTime = (end - start) * 1000.0
+    return bestSolution, execTime
