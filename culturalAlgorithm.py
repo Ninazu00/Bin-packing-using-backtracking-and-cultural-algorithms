@@ -139,3 +139,10 @@ def generateNewGeneration(childPopulation, newPopulation):
     if len(nextGen) > populationSize:
         nextGen = nextGen[:populationSize]
     return nextGen
+
+def terminateCondition(generation, maxGenerations,population):
+    for ind in population:
+        if ind.fitness == -1:
+            evaluateFitness(ind)
+    bestFitness = max(ind.fitness for ind in population)
+    return bestFitness >= 0.90 or generation >= maxGenerations
