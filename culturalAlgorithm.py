@@ -125,3 +125,17 @@ def initializePopulation():
         population.append(individual)
     return population
 
+def generateNewGeneration(childPopulation, newPopulation):
+    nextGen = []
+    nextGen.extend(childPopulation)
+    nextGen.extend(newPopulation)
+    while len(nextGen) < populationSize:
+        ind = Individual()
+        items_list = list(totalItems.items())
+        random.shuffle(items_list)
+        for item_id, item_size in items_list:
+            ind.addItem(item_id, item_size, binSize)
+        nextGen.append(ind)
+    if len(nextGen) > populationSize:
+        nextGen = nextGen[:populationSize]
+    return nextGen
