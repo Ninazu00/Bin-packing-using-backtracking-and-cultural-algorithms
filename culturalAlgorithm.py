@@ -15,6 +15,7 @@ class Individual:
 
 binSize = 10
 populationSize = 50
+mutationRate = 0.1
 
 totalItems = {}
 selectedIndividuals = []
@@ -87,7 +88,7 @@ def crossOver(parent1, parent2, childPopulation):
 
 def evaluateFitness(individual):
     fill = sum(individual.items.values())
-    individual.fitness = fill / individual.binSize
+    individual.fitness = fill / binSize
     return individual.fitness
 
 
@@ -95,8 +96,9 @@ def mutate(individual):
     if not individual.items:
         return individual
 
-    key = random.choice(list(individual.items.keys()))
-    individual.items.pop(key)
+    if random.random() < mutationRate:
+        key = random.choice(list(individual.items.keys()))
+        individual.items.pop(key)
 
     individual.fitness = -1
     return individual
