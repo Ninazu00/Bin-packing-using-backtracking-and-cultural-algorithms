@@ -212,10 +212,6 @@ algoDropdown = ttk.OptionMenu(
     command=whenAlgoChange)
 algoDropdown.pack(pady=5)
 
-test.drawBinFill(0.81, 1)
-test.drawBinFill(0.45, 2)
-test.drawBinFill(1.0, 3)
-
 test.root.mainloop()
 '''
     def drawBinFillRight(self,fillRate, binNumber):
