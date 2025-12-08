@@ -168,3 +168,17 @@ def generateBinCulturalAlgorithm(maxGenerations, populationSize, mutationRate, t
     bestIndividual = max(population, key=lambda x: x.fitness)
     return bestIndividual
 
+def culturalAlgorithmFullSolve(populationSize,mutationRate,maxGenerations,totalItems,binSize,bestBin,GUI):
+    binAmount = 0
+    #Executes the cultural algorithm repetitively until all items are packed into bins.
+    while totalItems:
+        for itemID in bestBin.items.keys():
+            totalItems.pop(itemID, None)
+        if not totalItems:
+            break
+        bestBin = generateBinCulturalAlgorithm(maxGenerations, populationSize, mutationRate, totalItems, binSize) #Draws the bin in the gui
+        binAmount += 1
+        GUI.drawBinFillRight(bestBin.getFillRate(binSize),binAmount)
+        print("Items in bin:", bestBin.items.values())
+        print("Fill rate:", bestBin.getFillRate(binSize))
+        print("Total number of bins used: ", binAmount)
