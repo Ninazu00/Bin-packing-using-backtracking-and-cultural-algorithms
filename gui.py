@@ -49,9 +49,9 @@ class GUI:
         tk.Label(self.inputFrame, text="Max Item Size:").grid(row=0,column=2, padx=10)
         self.entMaxSize = tk.Entry(self.inputFrame, width=10)
         self.entMaxSize.grid(row=0, column=3,padx=10)
-        tk.Label(self.inputFrame, text="Number of Items:").grid(row=0,column=4, padx=10)
+        tk.Label(self.inputFrame, text="Number of Items:").grid(row=0, column=4, padx=10)
         self.itemNumber = tk.Entry(self.inputFrame, width=10)
-        self.itemNumber.grid(row=0, column=3,padx=10)
+        self.itemNumber.grid(row=0, column=5, padx=10)
 
         # Dropdown menu for algorithms
         self.algoFrame = tk.Frame(self.topFrame)
