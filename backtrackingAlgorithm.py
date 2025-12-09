@@ -4,13 +4,42 @@ import time
 
 
 def sortItems(itemsList):
+    """
+    This function sorts the items in a descending order.
+
+    Arguments: list[float]: List of item sizes
+
+    Returns: list[float]: New list of items sorted in a descending order based on size.
+    """
     return sorted(itemsList, reverse=True)
 
 def placeItem(item, binIndex, usedBins, binRemainingCapacities):
+    """
+    This function places an item in a specific bin and updates its remaining capacity.
+
+    Arguments:
+        item (float): Size of the item to place.
+        binIndex (int): Index of the target bin in usedBins.
+        usedBins (list[list[float]]): Current items in each bin
+        binRemainingCapacities (list[float]): Remaining capacity for each bin.
+
+    Returns: None.
+    """
     usedBins[binIndex].append(item)
     binRemainingCapacities[binIndex] -= item
 
 def removeItem(item, binIndex, usedBins, binRemainingCapacities):
+    """
+    This function removes an item from a specific bin and restores its remaining capacity.
+
+    Arguments:
+        item (float): Size of the item to remove.
+        binIndex (int): Index of the bin in usedBins.
+        usedBins (list[list[float]]): Current items in each bin.
+        binRemainingCapacities (list[float]): Remaining capacity for each bin.
+
+    Returns: None
+    """
     usedBins[binIndex].remove(item)
     binRemainingCapacities[binIndex] += item
 
@@ -50,6 +79,15 @@ def initializeSolution(items, binCapacity):
     pass
 
 def findFeasibleBins(item, binRemainingCapacities):
+    """
+    This function loops through the remaining space in binRemainingCapacities list to find the indices of bins where the given item still fits.
+
+    Arguments: 
+        item (float): Size of the item to place.
+        binRemainingCapacities (list[float]): Remaining capacity for each bin.
+
+    Returns: list[int]: Indices of bins where the item fits.
+    """
     indices = []
     for i, remaining in enumerate(binRemainingCapacities):
         if item <= remaining:
@@ -57,6 +95,23 @@ def findFeasibleBins(item, binRemainingCapacities):
     return indices
 
 def backtrack(currentIndex, usedBins, binRemainingCapacities, binCapacity, bestSolution, sortedItemsList):
+    """
+    This function contains the main backtracking algorithm logic, it performs a recursive backtracking search to minimize the number of bins.
+
+    At each step, the function tries all feasible placements for the current
+    item, including opening a new bin, and updates bestSolution when a better
+    complete packing is found.
+
+    Arguments: 
+        currentIndex (int): Index of the next item to place in sortedItemsList.
+        usedBins (list[list[float]]): The bins built so far during the search, each inner list holds the items in that bin.
+        binRemainingCapacities (list[float]): Remaining capacity in each bin
+        binCapacity (float): Capacity of a single bin.
+        bestSolution (list[list[float]]): Best complete solution found so far.
+        sortedItemsList (list[float]): Items sorted in a descending order.
+
+    Returns: None.
+    """
     # Base case: all items have been placed
     if currentIndex == len(sortedItemsList):
         if len(usedBins) < len(bestSolution):
