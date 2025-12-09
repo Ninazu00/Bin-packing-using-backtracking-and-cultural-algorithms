@@ -161,7 +161,6 @@ class GUI:
             print("Time elapsed: ", elapsedTimeCA) 
             test.caTimeLabel.config(text=f"Cultural Algorithm time: {elapsedTimeCA:.2f} ms")
             test.caBinsLabel.config(text=f"Cultural Algorithm bins: {binAmountCA}")
-
         else:  
             startBT = time.time()
             solBT = backtrackingAlgorithm.solveBinPacking(items, binSize)
