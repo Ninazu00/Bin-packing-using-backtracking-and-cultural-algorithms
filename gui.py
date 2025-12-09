@@ -142,8 +142,8 @@ class GUI:
             end = time.time()
             btTime = (end - start) * 1000.0
 
-            test.btTimeLabel.config(text=f"Backtracking time: {btTime:.2f} ms")
-            test.btBinsLabel.config(text=f"Backtracking bins: {len(solBT)}")
+            self.btTimeLabel.config(text=f"Backtracking time: {btTime:.2f} ms")
+            self.btBinsLabel.config(text=f"Backtracking bins: {len(solBT)}")
 
         elif choice == "Cultural Algorithm":
             #Fine tuning variables for the cultural algorithm
@@ -159,8 +159,8 @@ class GUI:
             #Calculates the time it took the cultural algorithm to run
             elapsedTimeCA = time.time()- startTimeCA
             print("Time elapsed: ", elapsedTimeCA) 
-            test.caTimeLabel.config(text=f"Cultural Algorithm time: {elapsedTimeCA:.2f} ms")
-            test.caBinsLabel.config(text=f"Cultural Algorithm bins: {binAmountCA}")
+            self.caTimeLabel.config(text=f"Cultural Algorithm time: {elapsedTimeCA:.2f} ms")
+            self.caBinsLabel.config(text=f"Cultural Algorithm bins: {binAmountCA}")
         else:  
             startBT = time.time()
             solBT = backtrackingAlgorithm.solveBinPacking(items, binSize)
@@ -173,11 +173,11 @@ class GUI:
             btTime = (endBT - startBT) * 1000.0
             caTime = (endCA - startCA) * 1000.0
 
-            test.btTimeLabel.config(text=f"Backtracking time: {btTime:.2f} ms")
-            test.btBinsLabel.config(text=f"Backtracking bins: {len(solBT)}")
+            self.btTimeLabel.config(text=f"Backtracking time: {btTime:.2f} ms")
+            self.btBinsLabel.config(text=f"Backtracking bins: {len(solBT)}")
 
-            test.caTimeLabel.config(text=f"Cultural Algorithm time: {caTime:.2f} ms")
-            test.caBinsLabel.config(text=f"Cultural Algorithm bins: {len(solCA)}")
+            self.caTimeLabel.config(text=f"Cultural Algorithm time: {caTime:.2f} ms")
+            self.caBinsLabel.config(text=f"Cultural Algorithm bins: {len(solCA)}")
 
             #Cultural Algorithm Run
             #Fine tuning variables for the cultural algorithm
@@ -193,11 +193,5 @@ class GUI:
             #Calculates the time it took the cultural algorithm to run
             elapsedTimeCA = time.time()- startTimeCA
             print("Time elapsed: ", elapsedTimeCA) 
-            test.caTimeLabel.config(text=f"Cultural Algorithm time: {elapsedTimeCA:.2f} ms")
-            test.caBinsLabel.config(text=f"Cultural Algorithm bins: {binAmountCA}")
-
-    
-    
-
-test = GUI()
-test.root.mainloop()
+            self.caTimeLabel.config(text=f"Cultural Algorithm time: {elapsedTimeCA:.2f} ms")
+            self.caBinsLabel.config(text=f"Cultural Algorithm bins: {binAmountCA}")
