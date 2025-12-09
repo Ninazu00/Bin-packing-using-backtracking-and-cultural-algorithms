@@ -44,7 +44,6 @@ def removeItem(item, binIndex, usedBins, binRemainingCapacities):
     binRemainingCapacities[binIndex] += item
 
 def calculateLowerBound(remainingItems, binCapacity):
-
     totalSize = sum(remainingItems)
     return math.ceil(totalSize / binCapacity)
 
@@ -56,7 +55,9 @@ def copyBins(bins):
 
 
 def pruneBranch(usedBins, bestSolution, remainingItems, binCapacity):
+    print("Remaining items when calculating pruneBranch: ", remainingItems)
     lowerBound = calculateLowerBound(remainingItems, binCapacity)
+    print("Lower bound : ", lowerBound)
     if len(usedBins) + lowerBound >= len(bestSolution):
         return True
 
@@ -112,6 +113,7 @@ def backtrack(currentIndex, usedBins, binRemainingCapacities, binCapacity, bestS
 
     Returns: None.
     """
+    print("Remaining items when calculating backtrack: ", sortedItemsList)
     # Base case: all items have been placed
     if currentIndex == len(sortedItemsList):
         if len(usedBins) < len(bestSolution):
@@ -143,6 +145,7 @@ def backtrack(currentIndex, usedBins, binRemainingCapacities, binCapacity, bestS
 
 
 def solveBinPacking(items, binCapacity):
+    print("Items to solve with: ", items)
     sortedItems = sortItems(items)
     bestSolution = initializeSolution(sortedItems, binCapacity)
     usedBins = []

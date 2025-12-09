@@ -153,6 +153,7 @@ def initializeTotalItems(minSize,maxSize,numItems):
 
 def generateBinCulturalAlgorithm(maxGenerations, populationSize, mutationRate, totalItems, binSize):
     generation = 0
+    #print(totalItems)
     population = initializePopulation(populationSize,totalItems,binSize)
     beliefs = {"min-bin-fill":1,"top-5-items":[]}
     while not terminateCondition(generation, maxGenerations, population,binSize):

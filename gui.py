@@ -136,17 +136,17 @@ class GUI:
 
         if choice == "Backtracking Algorithm":
             bestSolutionBT, execTimeBT = backtrackingAlgorithm.solveBinPacking(sizes, binSize)
-
+            startTimeBT = time.time()
             self.drawBinFillLeft(bestSolutionBT)
+            elapsedTimeBT = time.time()- startTimeBT
+            print("Time elapsed for Backtracking: ", elapsedTimeBT)
             self.btTimeLabel.config(text=f"Backtracking time: {execTimeBT:.2f} ms")
             self.btBinsLabel.config(text=f"Backtracking bins: {len(bestSolutionBT)}")
-            print("Time elapsed: ", execTimeBT)
-            
 
         elif choice == "Cultural Algorithm":
             #Fine tuning variables for the cultural algorithm
-            populationSize = 50
-            mutationRate = 0.1
+            populationSize = 20
+            mutationRate = 0.15
             maxGenerations = 100
             #Needed values to be passed
             bestBin = culturalAlgorithm.Individual()
@@ -160,16 +160,16 @@ class GUI:
             self.caTimeLabel.config(text=f"Cultural Algorithm time: {elapsedTimeCA:.2f} ms")
             self.caBinsLabel.config(text=f"Cultural Algorithm bins: {binAmountCA}")
         else:  
-            bestSolutionBT, execTimeBT = backtrackingAlgorithm.solveBinPacking(items, binSize)
-
+            bestSolutionBT, execTimeBT = backtrackingAlgorithm.solveBinPacking(sizes, binSize)
+            startTimeBT = time.time()
             self.drawBinFillLeft(bestSolutionBT)
-            self.btTimeLabel.config(text=f"Backtracking time: {execTimeBT:.2f} ms")
+            elapsedTimeBT = time.time()- startTimeBT
+            self.btTimeLabel.config(text=f"Backtracking time: {elapsedTimeBT:.2f} ms")
             self.btBinsLabel.config(text=f"Backtracking bins: {len(bestSolutionBT)}")
-
             #Cultural Algorithm Run
             #Fine tuning variables for the cultural algorithm
-            populationSize = 50
-            mutationRate = 0.1
+            populationSize = 20
+            mutationRate = 0.15
             maxGenerations = 100
             #Needed values to be passed
             bestBin = culturalAlgorithm.Individual()
@@ -179,6 +179,7 @@ class GUI:
             binAmountCA = culturalAlgorithm.culturalAlgorithmFullSolve(populationSize,mutationRate,maxGenerations,itemsCA,binSize,bestBin,self)
             #Calculates the time it took the cultural algorithm to run
             elapsedTimeCA = time.time()- startTimeCA
-            print("Time elapsed: ", elapsedTimeCA) 
+            print("Time elapsed for Cultural: ", elapsedTimeCA) 
+            print("Time elapsed for Backtracking: ", elapsedTimeBT)
             self.caTimeLabel.config(text=f"Cultural Algorithm time: {elapsedTimeCA:.2f} ms")
             self.caBinsLabel.config(text=f"Cultural Algorithm bins: {binAmountCA}")
