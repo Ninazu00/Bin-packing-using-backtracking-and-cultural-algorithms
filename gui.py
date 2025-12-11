@@ -111,6 +111,8 @@ class GUI:
         return bar
     
     def drawBinFillLeft(self, bestSolution):
+        self.binGraphLeft.config(state="normal")
+        self.binGraphLeft.delete("1.0", "end")
         maxBinSum = max(sum(binItems) for binItems in bestSolution)
         for binNumber, binItems in enumerate(bestSolution, start=1):
             binCapacityUsed = sum(binItems)
@@ -123,6 +125,7 @@ class GUI:
             self.binGraphLeft.insert("end", bar + "\n" + "\n")        
         self.binGraphLeft.config(state="disabled")
         self.binGraphLeft.see("end")
+        
 
     def runAlgorithm(self):
         minSize = int(self.entMinSize.get())
